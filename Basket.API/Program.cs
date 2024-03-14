@@ -15,11 +15,17 @@ builder.Services.AddStackExchangeRedisCache(options =>
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped<DiscountGrpcService>();
 
-builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
-                options => options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]
-                ));
+//builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(
+//                options => options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]
+//                ));
 
-//builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(o =>
+{
+    o.Address = new Uri("http://discount.grpc:8080");
+    //o.Address = new Uri("discount.grpc");
+});
+
+//builder.Services.AddAutoMapper(typeof(Program)); "http://localhost:5273"
 
 
 builder.Services.AddControllers();
